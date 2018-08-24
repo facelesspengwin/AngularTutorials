@@ -3,18 +3,15 @@ import 'rxjs/Rx';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
-import { AuthService } from '../auth/auth.service';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 
 @Injectable()
 export class DataStorageService {
   constructor(private http: HttpClient,
-              private recipeService: RecipeService,
-              private authService: AuthService) {
+              private recipeService: RecipeService) {
   }
 
   storeRecipes() {
-    const token = this.authService.getToken();
     // const header = new HttpHeaders().set('Authorization', 'Bearer aibsdb3ububsdvu').append('header2', 'blah');
 
     // return this.http.put('https://angular-course-project-8f707.firebaseio.com/recipes.json', this.recipeService.getRecipes(), {
@@ -23,14 +20,12 @@ export class DataStorageService {
     //   // headers: header
     // });
     const req = new HttpRequest('PUT', 'https://angular-course-project-8f707.firebaseio.com/recipes.json', this.recipeService.getRecipes(), {
-      reportProgress: true,
-      params: new HttpParams().set('auth', token)
+      reportProgress: true
     });
     return this.http.request(req);
   }
 
   getRecipes() {
-    const token = this.authService.getToken();
 
     // this.http.get('https://angular-course-project-8f707.firebaseio.com/recipes.json?auth=' + token, {
     //   observe: 'response',   // body, response, etc...
@@ -52,9 +47,7 @@ export class DataStorageService {
     //       this.recipeService.setRecipes(recipes);
     //     }
     //   );
-    this.http.get<Recipe[]>('https://angular-course-project-8f707.firebaseio.com/recipes.json', {
-      params: new HttpParams().set('auth', token)
-    })
+    this.http.get<Recipe[]>('https://angular-course-project-8f707.firebaseio.com/recipes.json')
       .map(
         (recipes) => {
           for (const recipe of recipes) {
