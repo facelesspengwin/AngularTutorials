@@ -23,7 +23,8 @@ export class DataStorageService {
     //   // headers: header
     // });
     const req = new HttpRequest('PUT', 'https://angular-course-project-8f707.firebaseio.com/recipes.json', this.recipeService.getRecipes(), {
-      reportProgress: true, params: new HttpParams().set('auth', token)
+      reportProgress: true,
+      params: new HttpParams().set('auth', token)
     });
     return this.http.request(req);
   }
