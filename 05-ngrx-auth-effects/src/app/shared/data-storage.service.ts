@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import 'rxjs/Rx';
+import 'rxjs/add/operator/map';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
@@ -19,7 +20,8 @@ export class DataStorageService {
     //   params: new HttpParams().set('auth', token)
     //   // headers: headers
     // });
-    const req = new HttpRequest('PUT', 'https://ng-recipe-book-3adbb.firebaseio.com/recipes.json', this.recipeService.getRecipes(), {reportProgress: true});
+    const req = new HttpRequest('PUT', 'https://ng-recipe-book-3adbb.firebaseio.com/recipes.json',
+                      this.recipeService.getRecipes(), {reportProgress: true});
     return this.httpClient.request(req);
   }
 
@@ -32,7 +34,7 @@ export class DataStorageService {
       .map(
         (recipes) => {
           console.log(recipes);
-          for (let recipe of recipes) {
+          for (const recipe of recipes) {
             if (!recipe['ingredients']) {
               recipe['ingredients'] = [];
             }
